@@ -1,11 +1,8 @@
 package api;
 
 import com.google.gson.Gson;
-import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import utils.ConfigurationLoader;
 
@@ -27,12 +24,8 @@ public class ApiClient {
     private static final String REQUEST_BODY = "{\"playerId\": %d}";
     private static final String GET_PLAYER_REQUEST_BODY = "{\"playerId\": %s}";
 
-    private static final RequestSpecification REQUEST_SPECIFICATION = new RequestSpecBuilder()
-            .addFilter(new AllureRestAssured())
-            .build();
-
     public static Response getAllPlayers(){
-        Response response = given().spec(REQUEST_SPECIFICATION)
+        Response response = given()
                 .get(ALL_PLAYERS_URI);
         log.info(String.format(URL_STATUS_RESPONSE_MESSAGE, ALL_PLAYERS_URI, response.getStatusCode()));
         return response;
@@ -40,7 +33,7 @@ public class ApiClient {
 
     public static Response createPlayer(Map<String, Object> body, String editor){
         String uri = String.format(PLAYER_CREATION_URI, editor);
-        Response response = given().spec(REQUEST_SPECIFICATION)
+        Response response = given()
                 .queryParams(body)
                 .get(uri);
         log.info(String.format(URL_STATUS_BODY_RESPONSE_MESSAGE, uri, response.getStatusCode(), body.toString()));
@@ -49,7 +42,7 @@ public class ApiClient {
 
     public static Response updatePlayer(Map<String, Object> body, String editor, Integer playerId){
         String uri = String.format(PLAYER_UPDATE_URI, editor, playerId);
-        Response response = given().spec(REQUEST_SPECIFICATION)
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .body(new Gson().toJson(body))
                 .patch(uri);
@@ -59,7 +52,7 @@ public class ApiClient {
 
     public static Response getPlayerByPlayerId(Object id) {
         String uri = String.format(GET_PLAYER_REQUEST_BODY, id);
-        Response response = given().spec(REQUEST_SPECIFICATION)
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .body(uri)
                 .post(PLAYER_RECEIVING_URI);
@@ -69,7 +62,7 @@ public class ApiClient {
 
     public static Response deletePlayer(int playerId, String editor) {
         String uri = String.format(PLAYER_DELETION_URI, editor);
-        Response response = given().spec(REQUEST_SPECIFICATION)
+        Response response = given()
                 .contentType(ContentType.JSON)
                 .body(String.format(REQUEST_BODY, playerId))
                 .delete(uri);
