@@ -126,6 +126,7 @@ public class NegativeTestClass extends CommonTestClass {
         Map<String, Object> testData = generateDataForUser(ADMIN.getRole(), CREATE);
         testData.put(key, value);
         Response response = ApiClient.createPlayer(testData, supervisor.get().login);
+
         SoftAssert softAssert = new SoftAssert();
         if (response.getStatusCode() < 400) {
             Integer id = response.then().extract().as(Player.class).id;
@@ -135,13 +136,13 @@ public class NegativeTestClass extends CommonTestClass {
             String idMessage = String.format(ENTITY_EXPECTED_ACTUAL_ASSERT_MESSAGE, ID, expectedId, actualId);
             log.info(idMessage);
             softAssert.assertEquals(actualId, expectedId, idMessage);
+        } else {
+            Integer actualStatus = response.getStatusCode();
+            Integer expectedStatus = 400;
+            String message = String.format(ENTITY_EXPECTED_ACTUAL_ASSERT_MESSAGE, STATUS, expectedStatus, actualStatus);
+            log.info(message);
+            softAssert.assertEquals(actualStatus, expectedStatus, message);
         }
-
-        Integer actualStatus = response.getStatusCode();
-        Integer expectedStatus = 400;
-        String message = String.format(ENTITY_EXPECTED_ACTUAL_ASSERT_MESSAGE, STATUS, expectedStatus, actualStatus);
-        log.info(message);
-        softAssert.assertEquals(actualStatus, expectedStatus, message);
         softAssert.assertAll();
     }
 
