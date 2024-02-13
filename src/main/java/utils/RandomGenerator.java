@@ -1,7 +1,7 @@
 package utils;
 
-import static constants.FieldConstants.ADMIN;
-import static constants.FieldConstants.USER;
+import static constants.Roles.ADMIN;
+import static constants.Roles.USER;
 
 public class RandomGenerator {
     public static String generateRandomGender() {
@@ -13,7 +13,7 @@ public class RandomGenerator {
     }
 
     public static String generateRandomRole() {
-        return Math.random() < 0.5 ? ADMIN : USER;
+        return Math.random() < 0.5 ? ADMIN.getRole() : USER.getRole();
     }
 
     public static String generateRandomLogin(String prefix) {

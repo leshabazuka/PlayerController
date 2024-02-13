@@ -8,9 +8,6 @@ public class FieldConstants {
     public static final String PASSWORD = "password";
     public static final String GENDER = "gender";
     public static final String ROLE = "role";
-    public static final String USER = "user";
-    public static final String ADMIN = "admin";
-    public static final String SUPERVISOR = "supervisor";
     public static final String CREATE = "create";
     public static final String DELETE = "delete";
     public static final String UPDATE = "upd";

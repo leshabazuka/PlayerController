@@ -11,6 +11,7 @@ import java.util.*;
 
 import static constants.Messages.ENTITY_EXPECTED_ACTUAL_ASSERT_MESSAGE;
 import static constants.FieldConstants.*;
+import static constants.Roles.*;
 import static utils.PlayerHelper.*;
 import static utils.RandomGenerator.generateRandomRole;
 
@@ -49,19 +50,19 @@ public class PositiveTestClass extends CommonTestClass{
 
     @DataProvider
     public Object[][] updatePlayerData() {
-        Player admin = createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
-        Player user = createPlayerBySupervisor(USER, supervisor.get());
+        Player user = createPlayerBySupervisor(USER.getRole(), supervisor.get());
         createdPlayerIds.get().add(user.id);
         Player supervisor = ApiService.getPlayerByPlayerId(1);
 
         Object[][] roleEditorRoleIdSet = {
-                {USER, admin.login, USER, null},
-                {ADMIN, supervisor.login, ADMIN, null},
-                {USER, supervisor.login, USER, null},
-                {null, user.login, USER, user.id},
-                {null, admin.login, ADMIN, admin.id},
-                {null, supervisor.login, SUPERVISOR, supervisor.id}
+                {USER.getRole(), admin.login, USER.getRole(), null},
+                {ADMIN.getRole(), supervisor.login, ADMIN.getRole(), null},
+                {USER.getRole(), supervisor.login, USER.getRole(), null},
+                {null, user.login, USER.getRole(), user.id},
+                {null, admin.login, ADMIN.getRole(), admin.id},
+                {null, supervisor.login, SUPERVISOR.getRole(), supervisor.id}
         };
         return roleEditorRoleIdSet;
     }
@@ -89,14 +90,14 @@ public class PositiveTestClass extends CommonTestClass{
 
     @DataProvider
     public Object[][] deletePlayerData() {
-        Player admin = createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
         Player supervisor = ApiService.getPlayerByPlayerId(1);
 
         Object[][] roleEditorIdSet = {
-                {ADMIN, supervisor.login, null},
-                {USER, supervisor.login, null},
-                {USER, admin.login, null},
+                {ADMIN.getRole(), supervisor.login, null},
+                {USER.getRole(), supervisor.login, null},
+                {USER.getRole(), admin.login, null},
                 {null, admin.login, admin.id}
         };
         return roleEditorIdSet;
@@ -147,14 +148,14 @@ public class PositiveTestClass extends CommonTestClass{
 
     @DataProvider
     public Object[][] createPlayerData() {
-        Player admin = createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
         Player supervisor = ApiService.getPlayerByPlayerId(1);
 
         Object[][] roleEditorSet = {
-                {ADMIN, supervisor.login},
-                {USER, supervisor.login},
-                {USER, admin.login}
+                {ADMIN.getRole(), supervisor.login},
+                {USER.getRole(), supervisor.login},
+                {USER.getRole(), admin.login}
         };
         return roleEditorSet;
     }

@@ -12,6 +12,7 @@ import java.util.*;
 
 import static constants.Messages.ENTITY_EXPECTED_ACTUAL_ASSERT_MESSAGE;
 import static constants.FieldConstants.*;
+import static constants.Roles.*;
 import static utils.PlayerHelper.generateDataForUser;
 import static utils.RandomGenerator.generateRandomIntNumber;
 import static utils.RandomGenerator.generateRandomPassword;
@@ -45,17 +46,17 @@ public class NegativeTestClass extends CommonTestClass {
 
     @DataProvider
     public Object[][] updatePlayerData() {
-        Player user = PlayerHelper.createPlayerBySupervisor(USER, supervisor.get());
+        Player user = PlayerHelper.createPlayerBySupervisor(USER.getRole(), supervisor.get());
         createdPlayerIds.get().add(user.id);
-        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
 
         Object[][] roleLoginRoleId = {
-                {USER, user.login, USER, null},
-                {ADMIN, user.login, ADMIN, null},
-                {ADMIN, admin.login, ADMIN, null},
-                {null, user.login, SUPERVISOR, supervisor.get().id},
-                {null, admin.login, SUPERVISOR, supervisor.get().id}
+                {USER.getRole(), user.login, USER.getRole(), null},
+                {ADMIN.getRole(), user.login, ADMIN.getRole(), null},
+                {ADMIN.getRole(), admin.login, ADMIN.getRole(), null},
+                {null, user.login, SUPERVISOR.getRole(), supervisor.get().id},
+                {null, admin.login, SUPERVISOR.getRole(), supervisor.get().id}
         };
         return roleLoginRoleId;
     }
@@ -89,16 +90,16 @@ public class NegativeTestClass extends CommonTestClass {
 
     @DataProvider
     public Object[][] deletePlayerData() {
-        Player user = PlayerHelper.createPlayerBySupervisor(USER, supervisor.get());
+        Player user = PlayerHelper.createPlayerBySupervisor(USER.getRole(), supervisor.get());
         createdPlayerIds.get().add(user.id);
-        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
         Player supervisor = ApiService.getPlayerByPlayerId(1);
 
         Object[][] roleLoginIdSet = {
-                {ADMIN, admin.login, null},
-                {ADMIN, user.login, null},
-                {USER, user.login, null},
+                {ADMIN.getRole(), admin.login, null},
+                {ADMIN.getRole(), user.login, null},
+                {USER.getRole(), user.login, null},
                 {null, supervisor.login, supervisor.id},
                 {null, admin.login, supervisor.id},
                 {null, user.login, supervisor.id},
@@ -122,7 +123,7 @@ public class NegativeTestClass extends CommonTestClass {
      */
     @Test(dataProvider = "provideDataForValidation")
     public void validateData(String key, Object value, Integer createdId) {
-        Map<String, Object> testData = generateDataForUser(ADMIN, CREATE);
+        Map<String, Object> testData = generateDataForUser(ADMIN.getRole(), CREATE);
         testData.put(key, value);
         Response response = ApiClient.createPlayer(testData, supervisor.get().login);
         SoftAssert softAssert = new SoftAssert();
@@ -146,7 +147,7 @@ public class NegativeTestClass extends CommonTestClass {
 
     @DataProvider
     public Object[][] provideDataForValidation() {
-        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
         Object[][] keyValueIdSet = {
                 {AGE, 16, admin.id},
@@ -223,19 +224,19 @@ public class NegativeTestClass extends CommonTestClass {
 
     @DataProvider
     public Object[][] createPlayerData() {
-        Player user = PlayerHelper.createPlayerBySupervisor(USER, supervisor.get());
+        Player user = PlayerHelper.createPlayerBySupervisor(USER.getRole(), supervisor.get());
         createdPlayerIds.get().add(user.id);
-        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN, supervisor.get());
+        Player admin = PlayerHelper.createPlayerBySupervisor(ADMIN.getRole(), supervisor.get());
         createdPlayerIds.get().add(admin.id);
         Player supervisor = ApiService.getPlayerByPlayerId(1);
 
         Object[][] roleLoginSet = {
-                {SUPERVISOR, supervisor.login},
-                {SUPERVISOR, admin.login},
-                {ADMIN, admin.login},
-                {SUPERVISOR, user.login},
-                {ADMIN, user.login},
-                {USER, user.login}
+                {SUPERVISOR.getRole(), supervisor.login},
+                {SUPERVISOR.getRole(), admin.login},
+                {ADMIN.getRole(), admin.login},
+                {SUPERVISOR.getRole(), user.login},
+                {ADMIN.getRole(), user.login},
+                {USER.getRole(), user.login}
         };
         return roleLoginSet;
     }
